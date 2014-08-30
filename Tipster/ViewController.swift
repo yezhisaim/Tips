@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Foundation
 
 class ViewController: UIViewController {
     
@@ -30,14 +29,14 @@ class ViewController: UIViewController {
 
     @IBAction func onEditingChanged(sender: AnyObject) {
         
-        var tipPercentages = [0.18,0.2,0.22]
-        var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
+        let tipPercentages = [0.18,0.2,0.22]
+        let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
         
-        var billAmount = Double((billField.text as NSString).doubleValue)
-        var tip = billAmount * tipPercentage
-        var tipString = String(format: "$%0.2f",tip)
-        var total:Double = billAmount + tip
-        var totalString = String(format: "$%0.2f",tip)
+        let billAmount = Double((billField.text as NSString).doubleValue)
+        let tip = billAmount * tipPercentage
+        let tipString = String(format: "$%0.2f",tip)
+        let total:Double = billAmount + tip
+        let totalString = String(format: "$%0.2f",tip)
         
         tipLabel.text = "$\(tipString)";
         totalLabel.text = "$\(totalString)"
