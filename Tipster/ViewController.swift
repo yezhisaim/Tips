@@ -10,16 +10,20 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var billField: UITextField!
+
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
-    @IBOutlet weak var tipControl: UISegmentedControl!
+    @IBOutlet weak var tipSlider: UISlider!
+    @IBOutlet weak var billField: UITextField!
+    @IBOutlet weak var totalView: UIView!
+    @IBOutlet weak var tipBar: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tipLabel.text = "$0.00"
+        tipLabel.text = "0%"
         totalLabel.text = "$0.00"
+        tipBar.alpha = 0.0
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,27 +31,38 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func onEditingChanged(sender: AnyObject) {
+    func computeTip()
+    {
+        //Get tip percentage
+        let tipPercentage:Double = Double(tipSlider.value)
         
-        let tipPercentages = [0.18,0.2,0.22]
-        let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
-        
+        //Get bill amount for which tip is to be calculated
         let billAmount = Double((billField.text as NSString).doubleValue)
-        let tip = billAmount * tipPercentage
-        let tipString = String(format: "$%0.2f",tip)
+        
+        //Calculate Tip
+        let tipString = String(format: "%d",Int(tipPercentage))
+        let tip = (billAmount * tipPercentage)/100
         let total:Double = billAmount + tip
-        let totalString = String(format: "$%0.2f",tip)
+        let totalString = String(format: "%0.2f",total)
         
-        tipLabel.text = "$\(tipString)";
+        tipLabel.text = "\(tipString)%"
         totalLabel.text = "$\(totalString)"
+    }
+    
+    @IBAction func onEditingCanged(sender: AnyObject) {
+        tipBar.alpha = 1.0
+        computeTip()
+    }
+    
+    @IBAction func sliderValueChanged(sender: AnyObject) {
+        view.endEditing(true)
+        computeTip()
         
-        tipLabel.text = String(format: "$%0.2f",tip)
-        totalLabel.text = String(format: "$%0.2f",total)
-
     }
 
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)
+        tipBar.alpha = 0.0
     }
 }
 
